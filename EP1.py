@@ -1,4 +1,5 @@
 # EP1
+# Gabriel Hirata lindo
 
 X = input("Digite a string X: ")
 Y = input("Digite a string Y: ")
