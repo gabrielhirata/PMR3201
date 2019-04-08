@@ -1,5 +1,5 @@
 # EP1
-# Gabriel Hirata lindo
+import numpy as np
 
 X = input("Digite a string X: ")
 Y = input("Digite a string Y: ")
@@ -7,7 +7,6 @@ print("Strings sendo comparadas: %s e %s" %(X, Y))
 m = len(X)
 n = len(Y)
 print("%d %d" %(m, n))
-
 
 def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     files=open(filename, 'r')
@@ -27,15 +26,17 @@ def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     return cadeiacompleta
 
 def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
-                               # sequencia de caracteres nao contiguos
-    for i in range(m,0,-1):
-        for j in range(m,0,-1):
+                               # sequencia de caracteres nao contiguos   
+    sol = np.zeros((m+1,n+1))
+    for i in range(m+1):
+        for j in range(n+1):
             if i==0 or j==0:
                 sol[i][j] = 0
             elif X[i-1]==Y[j-1]:
-                sol[i][j] += sol[i-1][j-1]
+                sol[i][j] = sol[i-1][j-1] + 1
             else:
                 sol[i][j] = max(sol[i-1][j], sol[i][j-1])
-    return sol[m][n]
+    return sol
 
+print(MSCnaocont(X,Y,m,n)[m][n])
 print(MSCnaocont(X,Y,m,n))
