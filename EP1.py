@@ -36,7 +36,25 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
                 sol[i][j] = sol[i-1][j-1] + 1
             else:
                 sol[i][j] = max(sol[i-1][j], sol[i][j-1])
-    return sol
 
-print(MSCnaocont(X,Y,m,n)[m][n])
-print(MSCnaocont(X,Y,m,n))
+    cont = int(sol[m][n])
+    seq = [""]*(cont+1)
+    
+    i,j = m,n
+    while i>0 and j>0:
+        if X[i-1]==Y[j-1]:
+            seq[cont-1]=X[i-1]
+            i-=1
+            j-=1
+            cont-=1
+        elif sol[i-1][j]>sol[i][j-1]:
+            i-=1
+        else:
+            j-=1
+    return cont, seq
+
+a,b = MSCnaocont(X,Y,m,n)
+print(a)
+print(b)
+
+
