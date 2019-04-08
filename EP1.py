@@ -37,7 +37,9 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
             else:
                 sol[i][j] = max(sol[i-1][j], sol[i][j-1])
 
-    cont = int(sol[m][n])
+    comp = int(sol[m][n])
+
+    cont = comp
     seq = [""]*(cont+1)
     
     i,j = m,n
@@ -51,10 +53,10 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
             i-=1
         else:
             j-=1
-    return cont, seq
+    return comp, seq
 
 a,b = MSCnaocont(X,Y,m,n)
-print(a)
-print(b)
+print("Maior subsequência de caracteres não contíguos é " + "".join(b))
+print("Seu comprimento é %d" %a)
 
 
