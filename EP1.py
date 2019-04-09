@@ -1,18 +1,11 @@
 # EP1
 import numpy as np
 
-X = input("Digite a string X: ")
-Y = input("Digite a string Y: ")
-print("Strings sendo comparadas: %s e %s" %(X, Y))
-m = len(X)
-n = len(Y)
-print("%d %d" %(m, n))
-
 def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     files=open(filename, 'r')
     lists=files.readlines()              # this is a matrix of nlines
     nlines=len(lists)                    # number of lines
-    a = lists[0].rstrip('\n').split(' ') # separa a linhas em colunas
+    a = lists[0].rstrip('\n').split(' ') # separa as linhas em colunas
     # observa o espaco ' ' como
     # caracter de separacao
     # descarta \n
@@ -21,7 +14,7 @@ def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     # agora que cadeiacompleta nao e' vazio faca ate o final
     for i in range(1,nlines):
         a=lists[i].rstrip('\n').split(' ')
-    cadeiacompleta = cadeiacompleta + a[1]+a[2]+a[3]+a[4]+a[5]+a[6]
+        cadeiacompleta = cadeiacompleta + a[1]+a[2]+a[3]+a[4]+a[5]+a[6]
     # retorna a string completa
     return cadeiacompleta
 
@@ -55,6 +48,20 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
             j-=1
     return comp, seq
 
+X = input("Digite a string X ou o nome de um arquivo: ")
+Y = input("Digite a string Y ou o nome de um arquivo: ")
+print("Strings sendo comparadas: %s e %s" %(X, Y))
+if (X == "DengueVirus2StrainBA05i_Jakarta" or X == "DengueVirus3StrainTB55i_KualaLumpur" or 
+   X == "InfluenzaTypeA_H1N1_California" or X == "InfluenzaTypeA_H3N2_NewYork" and 
+   Y == "DengueVirus2StrainBA05i_Jakarta" or Y == "DengueVirus3StrainTB55i_KualaLumpur" or 
+   Y == "InfluenzaTypeA_H1N1_California" or Y == "InfluenzaTypeA_H3N2_NewYork"):
+    X = LeArquivoDNA(X+".txt") 
+    Y = LeArquivoDNA(Y+".txt")
+print(X)
+print(Y)
+m = len(X)
+n = len(Y)
+print("%d %d" %(m, n))
 a,b = MSCnaocont(X,Y,m,n)
 print("Maior subsequência de caracteres não contíguos é " + "".join(b))
 print("Seu comprimento é %d" %a)
