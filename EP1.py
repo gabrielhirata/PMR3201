@@ -32,29 +32,39 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
     comp = int(sol[m][n])
     cont = comp
     seq = [""]*(cont+1)
-    seqcontinua = ""
 
     i,j = m,n
     while i>0 and j>0:
-        continua = True
-        aux = ""
-        while continua:
-            if X[i-1]==Y[j-1]:
-                seq[cont-1]=X[i-1]
-                aux += X[i-1]
-                i-=1
-                j-=1
-                cont-=1
-            elif sol[i-1][j]>sol[i][j-1]:
-                i-=1
-                continua = False
-            else:
-                j-=1
-                continua = False
-        r = len(seqcontinua)
-        s = len(aux)
-        if s>r:
-            seqcontinua = "".join(reversed(aux))
+        if X[i-1]==Y[j-1]:
+            seq[cont-1]=X[i-1]
+            i-=1
+            j-=1
+            cont-=1
+        elif sol[i-1][j]>sol[i][j-1]:
+            i-=1
+        else:
+            j-=1
+
+    seqcontinua = ""
+    for k in range(1,m+1):
+        for l in range(1,n+1):
+            aux = ""
+            if X[k-1]==Y[l-1]:
+                r = k-1
+                s = l-1
+                continua = True
+                while r<(m-1) and s<(n-1) and continua:
+                    aux += X[r]
+                    r += 1
+                    s += 1
+                    if X[r]==Y[s]:
+                        continua = True
+                    else:
+                        continua = False
+                a = len(seqcontinua)
+                b = len(aux)
+                if b>a:
+                    seqcontinua = aux        
     return comp, seq, seqcontinua
 
 def main():
@@ -62,10 +72,10 @@ def main():
     Y = input("Digite a string Y ou o nome de um arquivo: ")
     print("Strings sendo comparadas: %s e %s" %(X, Y))
     if (X == "DengueVirus2StrainBA05i_Jakarta" or X == "DengueVirus3StrainTB55i_KualaLumpur" or 
-    X == "InfluenzaTypeA_H1N1_California" or X == "InfluenzaTypeA_H3N2_NewYork" and 
-    Y == "DengueVirus2StrainBA05i_Jakarta" or Y == "DengueVirus3StrainTB55i_KualaLumpur" or 
+    X == "InfluenzaTypeA_H1N1_California" or X == "InfluenzaTypeA_H3N2_NewYork"):
+        X = LeArquivoDNA(X+".txt")
+    if (Y == "DengueVirus2StrainBA05i_Jakarta" or Y == "DengueVirus3StrainTB55i_KualaLumpur" or 
     Y == "InfluenzaTypeA_H1N1_California" or Y == "InfluenzaTypeA_H3N2_NewYork"):
-        X = LeArquivoDNA(X+".txt") 
         Y = LeArquivoDNA(Y+".txt")
     m = len(X)
     n = len(Y)
