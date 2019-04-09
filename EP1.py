@@ -29,24 +29,33 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
                 sol[i][j] = sol[i-1][j-1] + 1
             else:
                 sol[i][j] = max(sol[i-1][j], sol[i][j-1])
-
     comp = int(sol[m][n])
-
     cont = comp
     seq = [""]*(cont+1)
-    
+    seqcontinua = ""
+
     i,j = m,n
     while i>0 and j>0:
-        if X[i-1]==Y[j-1]:
-            seq[cont-1]=X[i-1]
-            i-=1
-            j-=1
-            cont-=1
-        elif sol[i-1][j]>sol[i][j-1]:
-            i-=1
-        else:
-            j-=1
-    return comp, seq
+        continua = True
+        aux = ""
+        while continua:
+            if X[i-1]==Y[j-1]:
+                seq[cont-1]=X[i-1]
+                aux += X[i-1]
+                i-=1
+                j-=1
+                cont-=1
+            elif sol[i-1][j]>sol[i][j-1]:
+                i-=1
+                continua = False
+            else:
+                j-=1
+                continua = False
+        r = len(seqcontinua)
+        s = len(aux)
+        if s>r:
+            seqcontinua = "".join(reversed(aux))
+    return comp, seq, seqcontinua
 
 def main():
     X = input("Digite a string X ou o nome de um arquivo: ")
@@ -61,9 +70,11 @@ def main():
     m = len(X)
     n = len(Y)
     print("%d %d" %(m, n))
-    a,b = MSCnaocont(X,Y,m,n)
+    a,b,c = MSCnaocont(X,Y,m,n)
     print("Maior subsequência de caracteres não contíguos é " + "".join(b))
     print("Seu comprimento é %d" %a)
+    print("Maior subsequência de caracteres contíguos é %s"%c)
+    print("Seu comprimento é %d" %(len(c)))
 
 if __name__== "__main__":
   main()
