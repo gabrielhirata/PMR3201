@@ -48,22 +48,22 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
             j-=1
     return comp, seq
 
-X = input("Digite a string X ou o nome de um arquivo: ")
-Y = input("Digite a string Y ou o nome de um arquivo: ")
-print("Strings sendo comparadas: %s e %s" %(X, Y))
-if (X == "DengueVirus2StrainBA05i_Jakarta" or X == "DengueVirus3StrainTB55i_KualaLumpur" or 
-   X == "InfluenzaTypeA_H1N1_California" or X == "InfluenzaTypeA_H3N2_NewYork" and 
-   Y == "DengueVirus2StrainBA05i_Jakarta" or Y == "DengueVirus3StrainTB55i_KualaLumpur" or 
-   Y == "InfluenzaTypeA_H1N1_California" or Y == "InfluenzaTypeA_H3N2_NewYork"):
-    X = LeArquivoDNA(X+".txt") 
-    Y = LeArquivoDNA(Y+".txt")
-print(X)
-print(Y)
-m = len(X)
-n = len(Y)
-print("%d %d" %(m, n))
-a,b = MSCnaocont(X,Y,m,n)
-print("Maior subsequência de caracteres não contíguos é " + "".join(b))
-print("Seu comprimento é %d" %a)
+def main():
+    X = input("Digite a string X ou o nome de um arquivo: ")
+    Y = input("Digite a string Y ou o nome de um arquivo: ")
+    print("Strings sendo comparadas: %s e %s" %(X, Y))
+    if (X == "DengueVirus2StrainBA05i_Jakarta" or X == "DengueVirus3StrainTB55i_KualaLumpur" or 
+    X == "InfluenzaTypeA_H1N1_California" or X == "InfluenzaTypeA_H3N2_NewYork" and 
+    Y == "DengueVirus2StrainBA05i_Jakarta" or Y == "DengueVirus3StrainTB55i_KualaLumpur" or 
+    Y == "InfluenzaTypeA_H1N1_California" or Y == "InfluenzaTypeA_H3N2_NewYork"):
+        X = LeArquivoDNA(X+".txt") 
+        Y = LeArquivoDNA(Y+".txt")
+    m = len(X)
+    n = len(Y)
+    print("%d %d" %(m, n))
+    a,b = MSCnaocont(X,Y,m,n)
+    print("Maior subsequência de caracteres não contíguos é " + "".join(b))
+    print("Seu comprimento é %d" %a)
 
-
+if __name__== "__main__":
+  main()
