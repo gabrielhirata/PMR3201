@@ -1,5 +1,6 @@
 # EP1
-import numpy as np
+import numpy as np          # importa biblioteca para uso de matrizes
+import re
 
 def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     files=open(filename, 'r')
@@ -18,8 +19,8 @@ def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     # retorna a string completa
     return cadeiacompleta
 
-def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
-                               # sequencia de caracteres nao contiguos   
+def MSC(X,Y,m,n):               # funcao para verificar a maior
+                                # sequencia de caracteres nao contiguos e contiguos  
     sol = np.zeros((m+1,n+1))
     for i in range(m+1):
         for j in range(n+1):
@@ -67,21 +68,29 @@ def MSCnaocont(X,Y,m,n):       # funcao para verificar a maior
                     seqcontinua = aux        
     return comp, seq, seqcontinua
 
+def gravaArquivo(textos, nome):
+    arq = open('{}.txt'.format(nome), 'w')
+    for string in textos:
+        arq.write(string + " (" + str(len(string)) +")\n")
+    arq.close()
+    return arq
+
 def main():
-    X = input("Digite a string X ou o nome de um arquivo: ")
-    Y = input("Digite a string Y ou o nome de um arquivo: ")
+    nome = input("Digite o nome do arquivo onde serão armazenados os resultados (sem a extensão): ")
+    X = input("Digite a string X ou o nome de um arquivo (com a extensão): ")
+    Y = input("Digite a string Y ou o nome de um arquivo (com a extensão): ")
+    if (re.match("\w+\.txt$", X)):
+        X = LeArquivoDNA(X)
+    if (re.match("\w+\.txt$", Y)):
+        Y = LeArquivoDNA(Y)
     print("Strings sendo comparadas: %s e %s" %(X, Y))
-    if (X == "DengueVirus2StrainBA05i_Jakarta" or X == "DengueVirus3StrainTB55i_KualaLumpur" or 
-    X == "InfluenzaTypeA_H1N1_California" or X == "InfluenzaTypeA_H3N2_NewYork"):
-        X = LeArquivoDNA(X+".txt")
-    if (Y == "DengueVirus2StrainBA05i_Jakarta" or Y == "DengueVirus3StrainTB55i_KualaLumpur" or 
-    Y == "InfluenzaTypeA_H1N1_California" or Y == "InfluenzaTypeA_H3N2_NewYork"):
-        Y = LeArquivoDNA(Y+".txt")
     m = len(X)
     n = len(Y)
     print("%d %d" %(m, n))
-    a,b,c = MSCnaocont(X,Y,m,n)
-    print("Maior subsequência de caracteres não contíguos é " + "".join(b))
+    a,b,c = MSC(X,Y,m,n)
+    b = "".join(b)
+    gravaArquivo([X, Y, b, c], nome)
+    print("Maior subsequência de caracteres não contíguos é %s"%b)
     print("Seu comprimento é %d" %a)
     print("Maior subsequência de caracteres contíguos é %s"%c)
     print("Seu comprimento é %d" %(len(c)))
