@@ -1,6 +1,6 @@
-# EP1
+# EP1  Gabriel Yudi Hirata  9349666
 import numpy as np          # importa biblioteca para uso de matrizes
-import re
+import re                   # importa biblioteca que usa expressão regular
 
 def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     files=open(filename, 'r')
@@ -19,10 +19,12 @@ def LeArquivoDNA(filename):     # funcao para leitura de arquivos txt
     # retorna a string completa
     return cadeiacompleta
 
-def MSC(X,Y,m,n):               # funcao para verificar a maior
-                                # sequencia de caracteres nao contiguos e contiguos  
-    sol = np.zeros((m+1,n+1))
-    for i in range(m+1):
+def MSC(X,Y,m,n):               # função para verificar a maior subsequência
+                                # de caracteres nao contiguos e contiguos  
+    sol = np.zeros((m+1,n+1))   # cria matriz de zeros
+    # laço que preenche a matriz sol para armazenar o tamanho da maior subsequência de caracteres
+    # algoritmo 2 do enunciado
+    for i in range(m+1):        
         for j in range(n+1):
             if i==0 or j==0:
                 sol[i][j] = 0
@@ -30,10 +32,12 @@ def MSC(X,Y,m,n):               # funcao para verificar a maior
                 sol[i][j] = sol[i-1][j-1] + 1
             else:
                 sol[i][j] = max(sol[i-1][j], sol[i][j-1])
-    comp = int(sol[m][n])
-    cont = comp
-    seq = [""]*(cont+1)
 
+    comp = int(sol[m][n])      # comprimento da maior subsequência
+    cont = comp                # variável "contadora"
+    seq = [""]*(cont+1)        # cria vetor para armazenar os caracteres da maior subsequência
+
+    # laço para percorrer a tabela sol e armazenar os caracteres no vetor seq
     i,j = m,n
     while i>0 and j>0:
         if X[i-1]==Y[j-1]:
@@ -46,7 +50,9 @@ def MSC(X,Y,m,n):               # funcao para verificar a maior
         else:
             j-=1
 
-    seqcontinua = ""
+    seqcontinua = ""       # cria string vazia para armazenar a maior subsequência contígua
+    # laço para percorrer a tabela sol e armazenar a maior subsequência contígua
+    # utiliza uma string auxiliar para verificar todas subsequências contíguas
     for k in range(1,m+1):
         for l in range(1,n+1):
             aux = ""
@@ -54,6 +60,7 @@ def MSC(X,Y,m,n):               # funcao para verificar a maior
                 r = k-1
                 s = l-1
                 continua = True
+    # enquanto os caracteres forem iguais continua o laço e armazena os caracteres na string aux
                 while r<(m-1) and s<(n-1) and continua:
                     aux += X[r]
                     r += 1
@@ -62,16 +69,17 @@ def MSC(X,Y,m,n):               # funcao para verificar a maior
                         continua = True
                     else:
                         continua = False
+    # caso aux seja maior que a subsequência seqcontinua anteriormente armazenada, substitui
                 a = len(seqcontinua)
                 b = len(aux)
                 if b>a:
                     seqcontinua = aux        
     return comp, seq, seqcontinua
 
-def gravaArquivo(textos, nome):
+def gravaArquivo(textos, nome):         # função para gravar resultados em arquivos .txt
     arq = open('{}.txt'.format(nome), 'w')
     for string in textos:
-        arq.write(string + " (" + str(len(string)) +")\n")
+        arq.write(string + " (" + str(len(string)) +")\n\n")
     arq.close()
     return arq
 
@@ -79,17 +87,21 @@ def main():
     nome = input("Digite o nome do arquivo onde serão armazenados os resultados (sem a extensão): ")
     X = input("Digite a string X ou o nome de um arquivo (com a extensão): ")
     Y = input("Digite a string Y ou o nome de um arquivo (com a extensão): ")
+    # caso sejam arquivos .txt
     if (re.match("\w+\.txt$", X)):
         X = LeArquivoDNA(X)
     if (re.match("\w+\.txt$", Y)):
         Y = LeArquivoDNA(Y)
+    # se forem strings normais
     print("Strings sendo comparadas: %s e %s" %(X, Y))
+    # comprimentos das strings comparadas
     m = len(X)
     n = len(Y)
     print("%d %d" %(m, n))
-    a,b,c = MSC(X,Y,m,n)
-    b = "".join(b)
-    gravaArquivo([X, Y, b, c], nome)
+    a,b,c = MSC(X,Y,m,n)      # recebe o comprimento da maior subsequência não contígua, um vetor com os caracteres da mesma e
+                              # a string correspondente à maior subsequência contígua
+    b = "".join(b)            # transforma o vetor de caracteres em string
+    gravaArquivo([X, Y, b, c], nome)    
     print("Maior subsequência de caracteres não contíguos é %s"%b)
     print("Seu comprimento é %d" %a)
     print("Maior subsequência de caracteres contíguos é %s"%c)
